@@ -4,6 +4,8 @@ version: 0.2
 env:
   variables:
     IMAGE_NAME: devbank-backend
+    ECR_REPO_URI: "879382821616.dkr.ecr.us-east-2.amazonaws.com/devbank-backend"
+    AWS_REGION: "us-east-2"
   parameter-store: {}  # optional if you use SSM parameters
   exported-variables:
     - IMAGE_TAG

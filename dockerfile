@@ -1,20 +1,7 @@
-# Use lightweight Node.js image
-FROM node:18-alpine
-
-# Set working directory
-WORKDIR /usr/src/app
-
-# Copy dependency files
+FROM node:20-alpine
+WORKDIR /app
 COPY package*.json ./
-
-# Install dependencies
-RUN npm install
-
-# Copy application files
+RUN npm ci --only=production
 COPY . .
-
-# Expose backend port
 EXPOSE 3000
-
-# Start the app
 CMD ["node", "server.js"]

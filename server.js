@@ -16,6 +16,10 @@ app.get("/api/v1/hello", (req, res) => {
   res.json({ message: "Hello from DevBank backend!" });
 });
 
+app.get("/", (req, res) => {
+  res.send("Welcome to the DevBank backend!");
+});
+
 app.listen(PORT, () => {
   console.log(`Backend listening on port ${PORT}`);
 });

@@ -12,11 +12,6 @@ env:
     - IMAGE_URI
 
 phases:
-  install:
-    runtime-versions:
-      docker: 20
-    commands:
-      - echo "Installing deps (if any)…"
   pre_build:
     commands:
       - echo "Setting variables…"

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 function HealthCheck() {
   const [data, setData] = useState(null);
-  const apiBase = process.env.REACT_APP_API_BASE || "http://localhost:8000";
+  const apiBase = process.env.REACT_APP_API_BASE || "http://localhost:3000";
 
   useEffect(() => {
     fetch(`${apiBase}/health`)

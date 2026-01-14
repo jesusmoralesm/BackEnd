@@ -5,7 +5,7 @@ function HealthCheck() {
   const apiBase = process.env.REACT_APP_API_BASE || "http://localhost:3000";
 
   useEffect(() => {
-    fetch(`${apiBase}/health`)
+    fetch(`${apiBase}/api/health`)
       .then((r) => r.json())
       .then(setData)
       .catch((e) => setData({ error: e.message }));

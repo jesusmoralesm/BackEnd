@@ -1,4 +1,3 @@
-
 version: 0.2
 
 env:
@@ -6,7 +5,7 @@ env:
     IMAGE_NAME: devbank-backend
     ECR_REPO_URI: "879382821616.dkr.ecr.us-east-2.amazonaws.com/devbank-backend"
     AWS_REGION: "us-east-2"
-  parameter-store: {}  # optional if you use SSM parameters
+  parameter-store: {}
   exported-variables:
     - IMAGE_TAG
     - IMAGE_URI
@@ -36,7 +35,8 @@ phases:
       - docker push $ECR_REPO_URI:latest
       - echo "Writing imagedefinitions.json for ECS deploy…"
       - printf '[{"name":"%s","imageUri":"%s"}]' "$IMAGE_NAME" "$ECR_REPO_URI:$IMAGE_TAG" > imagedefinitions.json
+
 artifacts:
   files:
+    - appspec.yaml
     - imagedefinitions.json
-

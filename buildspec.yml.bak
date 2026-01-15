@@ -1,0 +1,42 @@
+
+version: 0.2
+
+env:
+  variables:
+    IMAGE_NAME: devbank-backend
+    ECR_REPO_URI: "879382821616.dkr.ecr.us-east-2.amazonaws.com/devbank-backend"
+    AWS_REGION: "us-east-2"
+  parameter-store: {}  # optional if you use SSM parameters
+  exported-variables:
+    - IMAGE_TAG
+    - IMAGE_URI
+
+phases:
+  pre_build:
+    commands:
+      - echo "Setting variables…"
+      - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+      - IMAGE_TAG=${COMMIT_HASH:-latest}
+      - echo "Login to ECR…"
+      - aws --version
+      - >
+        aws ecr get-login-password --region $AWS_REGION |
+        docker login --username AWS --password-stdin $ECR_REPO_URI
+      - echo "ECR login complete."
+  build:
+    commands:
+      - echo "Building Docker image…"
+      - docker build -t $IMAGE_NAME .
+      - docker tag $IMAGE_NAME:latest $ECR_REPO_URI:$IMAGE_TAG
+      - docker tag $IMAGE_NAME:latest $ECR_REPO_URI:latest
+  post_build:
+    commands:
+      - echo "Pushing image to ECR…"
+      - docker push $ECR_REPO_URI:$IMAGE_TAG
+      - docker push $ECR_REPO_URI:latest
+      - echo "Writing imagedefinitions.json for ECS deploy…"
+      - printf '[{"name":"%s","imageUri":"%s"}]' "$IMAGE_NAME" "$ECR_REPO_URI:$IMAGE_TAG" > imagedefinitions.json
+artifacts:
+  files:
+    - appspec.yaml
+    - imagedefinitions.json

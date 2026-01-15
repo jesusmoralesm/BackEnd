@@ -3,7 +3,7 @@ Resources:
   - TargetService:
       Type: AWS::ECS::Service
       Properties:
-        TaskDefinition: "<TASK_DEFINITION>"
+        TaskDefinition: arn:aws:ecs:us-east-2:879382821616:task-definition/devbank-backend-task-def
         LoadBalancerInfo:
           ContainerName: devbank-backend
           ContainerPort: 3000
